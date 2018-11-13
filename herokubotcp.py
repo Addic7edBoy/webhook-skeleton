@@ -1,61 +1,39 @@
 import logging
 import os
-from queue import Queue
-
+import telebot
 import cherrypy
-import telegram
+import config
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Dispatcher
 
+bot = telebot.TeleBot(config.token)
 
-class SimpleWebsite(object):
+
+class WebhookServer(object):
     @cherrypy.expose
-    def index(self):
-        return """<H1>Welcome!</H1>"""
-
-
-class BotComm(object):
-    exposed = True
-
     def __init__(self, TOKEN, NAME):
-        super(BotComm, self).__init__()
+        super(WebhookServer, self).__init__()
         self.TOKEN = TOKEN
-        self.NAME=NAME
-        self.bot = telegram.Bot(self.TOKEN)
-        try:
-            self.bot.setWebhook("https://{}.herokuapp.com/{}".format(self.NAME, self.TOKEN))
-        except:
-            raise RuntimeError("Failed to set the webhook")
-
-        self.update_queue = Queue()
-        self.dp = Dispatcher(self.bot, self.update_queue)
-
-        self.dp.add_handler(CommandHandler("start", self._start))
-        self.dp.add_handler(MessageHandler(Filters.text, self._echo))
-        self.dp.add_error_handler(self._error)
-
-    @cherrypy.tools.json_in()
-    def POST(self, *args, **kwargs):
-        update = cherrypy.request.json
-        update = telegram.Update.de_json(update, self.bot)
-        self.dp.process_update(update)
-
-    def _error(self, error):
-        cherrypy.log("Error occurred - {}".format(error))
-
-    def _start(self, bot, update):
-        update.effective_message.reply_text("Hi!")
+        self.NAME = NAME
+        if 'content-length' in cherrypy.request.headers and \
+                        'content-type' in cherrypy.request.headers and \
+                        cherrypy.request.headers['content-type'] == 'application/json':
+            length = int(cherrypy.request.headers['content-length'])
+            json_string = cherrypy.request.body.read(length).decode("utf-8")
+            update = telebot.types.Update.de_json(json_string)
+            bot.process_new_updates([update])
+            return ''
+        else:
+            raise cherrypy.HTTPError(403)
 
 
-    def _echo(self, bot, update):
-        update.effective_message.reply_text(update.effective_message.text)
-
+@bot.message_handler(func=lambda message: True, content_types=['text'])
+def echo_message(message):
+    bot.reply_to(message, message.text)
 
 if __name__ == "__main__":
     # Set these variable to the appropriate values
-    TOKEN = "Your token from @Botfather"
-    NAME = "The name of your app on Heroku"
-
-    # Port is given by Heroku
+    TOKEN = "640239383:AAF2VMnsgzpEqzKd7tYCoRC3MvNYxZJf4wA"
+    NAME = "webhook-test-gb"
     PORT = os.environ.get('PORT')
 
     # Enable logging
@@ -63,11 +41,9 @@ if __name__ == "__main__":
                         level=logging.INFO)
     logger = logging.getLogger(__name__)
 
-    # Set up the cherrypy configuration
     cherrypy.config.update({'server.socket_host': '0.0.0.0', })
     cherrypy.config.update({'server.socket_port': int(PORT), })
-    cherrypy.tree.mount(SimpleWebsite(), "/")
-    cherrypy.tree.mount(BotComm(TOKEN, NAME),
+    cherrypy.tree.mount(WebhookServer(TOKEN, NAME),
                         "/{}".format(TOKEN),
                         {'/': {'request.dispatch': cherrypy.dispatch.MethodDispatcher()}})
     cherrypy.engine.start()
