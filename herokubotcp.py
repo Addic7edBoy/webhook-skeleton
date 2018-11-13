@@ -9,9 +9,9 @@ bot = telebot.TeleBot(config.token)
 # Здесь пишем наши хэндлеры
 
 
-@bot.message_handler(func=lambda message: True, content_types=['text'])
-def echo_message(message):
-    bot.reply_to(message, message.text)
+@bot.message_handler(content_types=["text"])
+def repeat_all_messages(message):
+    bot.send_message(message.chat.id, message.text)
 
 if "HEROKU" in list(os.environ.keys()):
     logger = telebot.logger
