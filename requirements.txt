@@ -1,13 +1,15 @@
 python-telegram-bot
 backports.functools-lru-cache==1.5
 certifi==2018.10.15
-chardet==3.0.4
-cheroot==6.5.2
-CherryPy==18.0.1
+Click==7.0
+Flask==1.0.2
 gitdb2==2.0.5
 GitPython==2.1.11
 idna==2.7
+itsdangerous==1.1.0
 jaraco.functools==1.20
+Jinja2==2.10
+MarkupSafe==1.1.0
 more-itertools==4.3.0
 pbr==5.1.0
 portend==2.3
@@ -21,5 +23,5 @@ stevedore==1.30.0
 telebot==0.0.3
 tempora==1.14
 urllib3==1.24.1
-virtualenv==16.1.0
+Werkzeug==0.14.1
 zc.lockfile==1.4
