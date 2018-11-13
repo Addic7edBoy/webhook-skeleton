@@ -1,5 +1,5 @@
+python-telegram-bot
 backports.functools-lru-cache==1.5
-bandit==1.5.1
 certifi==2018.10.15
 chardet==3.0.4
 cheroot==6.5.2
@@ -10,9 +10,7 @@ idna==2.7
 jaraco.functools==1.20
 more-itertools==4.3.0
 pbr==5.1.0
-pep8==1.7.1
 portend==2.3
-pyflakes==2.0.0
 pyTelegramBotAPI==3.6.6
 pytz==2018.7
 PyYAML==3.13
