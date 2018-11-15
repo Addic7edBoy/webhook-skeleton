@@ -91,7 +91,8 @@ def third_step(message):
     if message.text == 'Ненада':
         bot.send_message(message.chat.id, 'sosi', reply_markup=keyboard_hider)
     if message.text == 'Еще':
-        msg = bot.send_message(message.chat.id, 'sosi', reply_markup=keyboard_hider)
+        bot.send_message(message.chat.id, 'sosi', reply_markup=keyboard_hider)
+        msg = 'Da'
         bot.register_next_step_handler(msg, first_step)
 
 
