@@ -1,8 +1,9 @@
 import logging
 import os
-
+import telebot
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
+bot = telebot.TeleBot(config.token)
 
 def start(bot, update):
     update.effective_message.reply_text("Hi!")
@@ -16,11 +17,8 @@ def error(bot, update, error):
 
 
 if __name__ == "__main__":
-    # Set these variable to the appropriate values
     TOKEN = "640239383:AAF2VMnsgzpEqzKd7tYCoRC3MvNYxZJf4wA"
     NAME = "webhook-test-gb"
-
-    # Port is given by Heroku
     PORT = os.environ.get('PORT')
 
     # Enable logging

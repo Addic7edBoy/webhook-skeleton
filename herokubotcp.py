@@ -9,9 +9,9 @@ bot = telebot.TeleBot(config.token)
 # Здесь пишем наши хэндлеры
 
 
-@bot.message_handler(content_types=["text"])
-def repeat_all_messages(message):
-    bot.send_message(message.chat.id, message.text)
+@bot.message_handler(func=lambda message: True, content_types=['text'])
+def echo_message(message):
+    bot.reply_to(message, message.text)
 
 if "HEROKU" in list(os.environ.keys()):
     logger = telebot.logger
@@ -19,7 +19,7 @@ if "HEROKU" in list(os.environ.keys()):
 
     server = Flask(__name__)
 
-    @server.route("/webhook-test-gb", methods=['POST'])
+    @server.route("/", methods=['POST'])
     def getMessage():
         bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
         return "!", 200
@@ -27,7 +27,7 @@ if "HEROKU" in list(os.environ.keys()):
     @server.route("/")
     def webhook():
         bot.remove_webhook()
-        bot.set_webhook(url="https://dashboard.heroku.com/apps/webhook-test-gb")
+        bot.set_webhook(url="https://webhook-test-gb.herokuapp.com/")
         return "?", 200
     server.run(host="0.0.0.0", port=os.environ.get('PORT', 80))
 else:
