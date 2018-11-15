@@ -92,8 +92,8 @@ def third_step(message):
         bot.send_message(message.chat.id, 'sosi', reply_markup=keyboard_hider)
     if message.text == 'Еще':
         bot.send_message(message.chat.id, 'sosi', reply_markup=keyboard_hider)
-        msg = 'Da'
-        bot.register_next_step_handler(msg, first_step)
+        message = 'Da'
+        bot.register_next_step_handler(message, first_step)
 
 
 if "HEROKU" in list(os.environ.keys()):
