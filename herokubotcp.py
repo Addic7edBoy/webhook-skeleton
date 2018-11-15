@@ -57,28 +57,31 @@ def gb_strong(message):
 
 
 def first_step(message):
+    keyboard_hider = types.ReplyKeyboardRemove()
     if message.text == 'Da':
         markup = generate_markup(1)
         msg = bot.send_message(message.chat.id, 'Выбирай', reply_markup=markup)
         bot.register_next_step_handler(msg, second_step)
+    if message.text == 'No':
+        bot.send_message(message.chat.id, 'sosi', reply_markup=keyboard_hider)
 
 
 def second_step(message):
     markup = generate_markup(2)
     if message.text == '1':
-        v = open('music/balthazar.ogg')
+        v = open('music/balthazar.ogg', 'rb')
         msg = bot.send_voice(message.chat.id, v, None,  reply_markup=markup)
     elif message.text == '2':
-        v = open('music/eden.ogg')
+        v = open('music/eden.ogg', 'rb')
         msg = bot.send_voice(message.chat.id, v, None, reply_markup=markup)
     elif message.text == '3':
-        v = open('music/grandson.ogg')
+        v = open('music/grandson.ogg', 'rb')
         msg = bot.send_voice(message.chat.id, v, None, reply_markup=markup)
     elif message.text == '4':
-        v = open('music/grandson.ogg')
+        v = open('music/grandson.ogg', 'rb')
         msg = bot.send_voice(message.chat.id, v, None, reply_markup=markup)
     elif message.text == '5':
-        v = open('music/oxxxy.ogg')
+        v = open('music/oxxxy.ogg', 'rb')
         msg = bot.send_voice(message.chat.id, v, None, reply_markup=markup)
     bot.register_next_step_handler(msg, third_step)
 
