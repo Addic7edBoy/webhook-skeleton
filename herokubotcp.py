@@ -10,7 +10,7 @@ from telebot import types
 def generate_markup(x):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
     if x == 1:
-        list_items = [1, 2, 3, 4, 5]
+        list_items = ['1', '2', '3', '4', '5']
         for item in list_items:
             markup.add(item)
     if x == 0:
