@@ -4,6 +4,25 @@ from flask import Flask, request
 import logging
 import config
 import time
+from telebot import types
+
+
+def generate_markup(x):
+    markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
+    if x == 1:
+        list_items = [1, 2, 3, 4, 5]
+        for item in list_items:
+            markup.add(item)
+    if x == 0:
+        list_items = ['Da', 'No']
+        for item in list_items:
+            markup.add(item)
+    if x == 2:
+        list_items = ['Еще', 'Хватит ']
+        for item in list_items:
+            markup.add(item)
+    return markup
+
 bot = telebot.TeleBot(config.token)
 
 # Здесь пишем наши хэндлеры
@@ -22,11 +41,16 @@ def gb_strong(message):
     if message.text == 'Я создал монстра':
         time.sleep(0.3)
         bot.send_message(message.chat.id, 'Я тебя щас забаню кожаный ублюдок')
+    else:
+        bot.send_message(message.chat.id, 'Основной функционал недоступен, отстань тварь')
+        bot.send_message(message.chat.id, 'Но могу скинуть музыку, хочешь?')
+        markup = generate_markup(0)
+        keyboard_hider = types.ReplyKeyboardRemove()
+        if message.text == 'Da':
+            bot.send_message(message.chat.id, 'sosi tvar', reply_markup=markup)
+        if message.text == 'No':
+            bot.send_message(message.chat.id, 's', reply_markup=markup)
 
-
-#@bot.message_handler(func=lambda message: True, content_types=['text'])
-#def echo_message(message):
-#    bot.reply_to(message, message.text)
 
 if "HEROKU" in list(os.environ.keys()):
     logger = telebot.logger
