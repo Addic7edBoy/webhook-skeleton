@@ -67,7 +67,7 @@ def first_step(message):
 
 
 def second_step(message):
-    markup = generate_markup(1)
+    markup = generate_markup(0)
     if message.text == '1':
         v = open('music/balthazar.ogg', 'rb')
         msg = bot.send_voice(message.chat.id, v, None,  reply_markup=markup)
