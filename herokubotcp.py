@@ -18,7 +18,7 @@ def generate_markup(x):
         for item in list_items:
             markup.add(item)
     if x == 2:
-        list_items = ['Еще', 'Хватит ']
+        list_items = ['Еще', 'Ненада']
         for item in list_items:
             markup.add(item)
     return markup
@@ -64,9 +64,32 @@ def first_step(message):
 
 
 def second_step(message):
+    markup = generate_markup(2)
+    if message.text == '1':
+        v = open('music/balthazar.ogg')
+        msg = bot.send_voice(message.chat.id, v, None,  reply_markup=markup)
+    elif message.text == '2':
+        v = open('music/eden.ogg')
+        msg = bot.send_voice(message.chat.id, v, None, reply_markup=markup)
+    elif message.text == '3':
+        v = open('music/grandson.ogg')
+        msg = bot.send_voice(message.chat.id, v, None, reply_markup=markup)
+    elif message.text == '4':
+        v = open('music/grandson.ogg')
+        msg = bot.send_voice(message.chat.id, v, None, reply_markup=markup)
+    elif message.text == '5':
+        v = open('music/oxxxy.ogg')
+        msg = bot.send_voice(message.chat.id, v, None, reply_markup=markup)
+    bot.register_next_step_handler(msg, third_step)
+
+
+def third_step(message):
     keyboard_hider = types.ReplyKeyboardRemove()
-    if message.text == 'No':
+    if message.text == 'Ненада':
         bot.send_message(message.chat.id, 'sosi', reply_markup=keyboard_hider)
+    if message.text == 'Еще':
+        msg = bot.send_message(message.chat.id, 'sosi', reply_markup=keyboard_hider)
+        bot.register_next_step_handler(msg, first_step)
 
 
 if "HEROKU" in list(os.environ.keys()):
