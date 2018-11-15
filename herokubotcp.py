@@ -30,27 +30,31 @@ bot = telebot.TeleBot(config.token)
 
 @bot.message_handler(func=lambda message: True, content_types=["text"])
 def gb_strong(message):
-    if message.text == 'Хэй бот скинь свой любимый трек':
-        f = open('photo2.jpg', 'rb')
-        v = open('music/GB_squad.ogg', 'rb')
-        bot.send_photo(message.chat.id, f)
-        bot.send_voice(message.chat.id, v)
-    if message.text == 'Ты ебанутый?':
-        time.sleep(0.2)
-        bot.send_message(message.chat.id, 'Закройся лох это шедевр')
-    if message.text == 'Я создал монстра':
-        time.sleep(0.3)
-        bot.send_message(message.chat.id, 'Я тебя щас забаню кожаный ублюдок')
-    else:
-        bot.send_message(message.chat.id, 'Основной функционал недоступен, отстань тварь')
-        bot.send_message(message.chat.id, 'Но могу скинуть музыку, хочешь?')
+    message_1 = 'Хэй бот скинь свой любимый трек'
+    message_2 = 'Ты ебанутый?'
+    message_3 = 'Я создал монстра'
+    if not message_1 or message_2 or message_3:
+        bot.send_message(message_1.chat.id, 'Основной функционал недоступен, отстань тварь')
         markup = generate_markup(0)
+        bot.send_message(message_1.chat.id, 'Но могу скинуть музыку, хочешь?', reply_markup=markup)
         keyboard_hider = types.ReplyKeyboardRemove()
         if message.text == 'Da':
-            bot.send_message(message.chat.id, 'sosi tvar', reply_markup=markup)
+            markup = generate_markup(1)
+            bot.send_message(message.chat.id, 'Выбирай', reply_markup=markup)
         if message.text == 'No':
-            bot.send_message(message.chat.id, 's', reply_markup=markup)
-
+            bot.send_message(message.chat.id, 'sosi', reply_markup=keyboard_hider)
+    else:
+        if message.text == message_1:
+            f = open('photo2.jpg', 'rb')
+            v = open('music/GB_squad.ogg', 'rb')
+            bot.send_photo(message.chat.id, f)
+            bot.send_voice(message.chat.id, v)
+        if message.text == message_2:
+            time.sleep(0.2)
+            bot.send_message(message.chat.id, 'Закройся лох это шедевр')
+        if message.text == message_3:
+            time.sleep(0.3)
+            bot.send_message(message.chat.id, 'Я тебя щас забаню кожаный ублюдок')
 
 if "HEROKU" in list(os.environ.keys()):
     logger = telebot.logger
