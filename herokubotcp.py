@@ -25,8 +25,6 @@ def generate_markup(x):
 
 bot = telebot.TeleBot(config.token)
 
-# Здесь пишем наши хэндлеры
-
 
 @bot.message_handler(func=lambda message: message.text == 'Хэй бот скинь свой любимый трек')
 def command_hey(message):
@@ -70,19 +68,24 @@ def second_step(message):
     markup = generate_markup(0)
     if message.text == '1':
         v = open('music/balthazar.ogg', 'rb')
-        msg = bot.send_voice(message.chat.id, v, None,  reply_markup=markup)
+        bot.send_voice(message.chat.id, v, None,  reply_markup=markup)
+        msg = bot.send_message(message.chat.id, 'Еще?', reply_markup=markup)
     elif message.text == '2':
         v = open('music/eden.ogg', 'rb')
-        msg = bot.send_voice(message.chat.id, v, None, reply_markup=markup)
+        bot.send_voice(message.chat.id, v, None, reply_markup=markup)
+        msg = bot.send_message(message.chat.id, 'Еще?', reply_markup=markup)
     elif message.text == '3':
         v = open('music/grandson.ogg', 'rb')
-        msg = bot.send_voice(message.chat.id, v, None, reply_markup=markup)
+        bot.send_voice(message.chat.id, v, None, reply_markup=markup)
+        msg = bot.send_message(message.chat.id, 'Еще?', reply_markup=markup)
     elif message.text == '4':
         v = open('music/grandson.ogg', 'rb')
-        msg = bot.send_voice(message.chat.id, v, None, reply_markup=markup)
+        bot.send_voice(message.chat.id, v, None, reply_markup=markup)
+        msg = bot.send_message(message.chat.id, 'Еще?', reply_markup=markup)
     elif message.text == '5':
         v = open('music/oxxxy.ogg', 'rb')
-        msg = bot.send_voice(message.chat.id, v, None, reply_markup=markup)
+        bot.send_voice(message.chat.id, v, None)
+        msg = bot.send_message(message.chat.id, 'Еще?', reply_markup=markup)
     bot.register_next_step_handler(msg, first_step)
 
 
