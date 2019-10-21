@@ -23,5 +23,5 @@ stevedore==1.30.0
 telebot==0.0.3
 tempora==1.14
 urllib3==1.24.1
-Werkzeug==0.14.1
+Werkzeug==0.15.3
 zc.lockfile==1.4
