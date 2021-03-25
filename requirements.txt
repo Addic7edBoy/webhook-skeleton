@@ -15,7 +15,7 @@ pbr==5.1.0
 portend==2.3
 pyTelegramBotAPI==3.6.6
 pytz==2018.7
-PyYAML==3.13
+PyYAML==5.4
 requests==2.7.0
 six==1.11.0
 smmap2==2.0.5
